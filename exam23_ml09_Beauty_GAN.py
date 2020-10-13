@@ -16,13 +16,13 @@ import numpy as np
 
 
 detector = dlib.get_frontal_face_detector() #얼굴 찾아주는 detector ->사진에서 얼굴 영역만 찾아줌 
-sp = dlib.shape_predictor('./models/shape_predictor_5_face_landmarks.dat') #눈,코, 입 찾아주는 모델 
+sp = dlib.shape_predictor('../models/shape_predictor_5_face_landmarks.dat') #눈,코, 입 찾아주는 모델
 
 
 # In[3]:
 
 
-img = dlib.load_rgb_image('./imgs/12.jpg') #이미지 불러오기
+img = dlib.load_rgb_image('../imgs/12.jpg') #이미지 불러오기
 plt.figure(figsize=(16,10))
 plt.imshow(img) #이미지 -> imshow
 
@@ -84,7 +84,7 @@ def align_faces(img):
     faces = dlib.get_face_chips(img, objs, size=256, padding=0.35) #faces 자른 얼굴 영역저장 --> 얼굴 이미지로 저장
     return faces #얼굴 이미지들
 
-test_img = dlib.load_rgb_image('./imgs/03.jpg') #이미지 불러오기 
+test_img = dlib.load_rgb_image('../imgs/03.jpg') #이미지 불러오기
 test_faces = align_faces(test_img) #함수에 테스트 이미지를 넣음  faces = test_faces
 fig, axes = plt.subplots(1, len(test_faces)+1, figsize =(20,16)) #1줄에 얼굴이 4개면 5개를 그림(원본, 얼굴4개)
 axes[0].imshow(test_img)
@@ -99,8 +99,8 @@ for i, face in enumerate(test_faces): #얼굴 이미지만 들어있음
 sess = tf.Session()#tensorflow는 session을 만들어서 fit
 sess.run(tf.global_variables_initializer())#모델 초기화 
 
-saver = tf.train.import_meta_graph('./models/model.meta')
-saver.restore(sess, tf.train.latest_checkpoint('./models'))
+saver = tf.train.import_meta_graph('../models/model.meta')
+saver.restore(sess, tf.train.latest_checkpoint('../models'))
 
 graph = tf.get_default_graph()
 X = graph.get_tensor_by_name('X:0')
@@ -121,10 +121,10 @@ def deprocess(img):
 # In[20]:
 
 
-img1 = dlib.load_rgb_image('./imgs/12.jpg') #소스 이미지 
+img1 = dlib.load_rgb_image('../imgs/12.jpg') #소스 이미지
 img1_faces = align_faces(img1)
 
-img2 = dlib.load_rgb_image('./imgs/makeup/vFG56.png') #레퍼런스 이미지(메이크업)
+img2 = dlib.load_rgb_image('../imgs/makeup/vFG56.png') #레퍼런스 이미지(메이크업)
 img2_faces = align_faces(img2)
 
 fig, axes = plt.subplots(1,2,figsize=(16,10))
